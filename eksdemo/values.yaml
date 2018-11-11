@@ -1,0 +1,44 @@
+# Default values for eksdemo.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+strategy:
+  type: RollingUpdate
+  rollingUpdate:
+    maxSurge: 25%
+    maxUnavailable: 25%
+
+nodejs:
+  image:
+    repository: brentley/ecsdemo-nodejs
+    tag: latest
+    pullPolicy: Always
+  service:
+    type: ClusterIP
+    port: 80
+    targetPort: 3000
+
+crystal:
+  image:
+    repository: brentley/ecsdemo-crystal
+    tag: latest
+    pullPolicy: Always
+  service:
+    type: ClusterIP
+    port: 80
+    targetPort: 3000
+
+frontend:
+  image:
+    repository: brentley/ecsdemo-frontend
+    tag: latest
+    pullPolicy: Always
+  service:
+    type: LoadBalancer
+    port: 80
+    targetPort: 3000
+
+nameOverride: ""
+fullnameOverride: ""

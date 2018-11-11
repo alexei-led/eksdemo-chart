@@ -1,0 +1,22 @@
+{{- $fullName := printf "%s-crystal" (include "eksdemo.fullname" .) -}}
+{{- $appName := printf "%s-crystal" (include "eksdemo.name" .) -}}
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ $fullName }}
+  labels:
+    app.kubernetes.io/name: {{ $appName }}
+    helm.sh/chart: {{ include "eksdemo.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  type: {{ .Values.crystal.service.type }}
+  ports:
+    - port: {{ .Values.crystal.service.port }}
+      targetPort: {{ .Values.crystal.service.targetPort }}
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: {{ $appName }}
+    app.kubernetes.io/instance: {{ .Release.Name }}

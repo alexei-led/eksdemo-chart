@@ -1,0 +1,22 @@
+{{- $fullName := printf "%s-frontend" (include "eksdemo.fullname" .) -}}
+{{- $appName := printf "%s-frontend" (include "eksdemo.name" .) -}}
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ $fullName }}
+  labels:
+    app.kubernetes.io/name: {{ $appName }}
+    helm.sh/chart: {{ include "eksdemo.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  type: {{ .Values.frontend.service.type }}
+  ports:
+    - port: {{ .Values.frontend.service.port }}
+      targetPort: {{ .Values.frontend.service.targetPort }}
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: {{ $appName }}
+    app.kubernetes.io/instance: {{ .Release.Name }}

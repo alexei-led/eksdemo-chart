@@ -1,0 +1,10 @@
+{{- $fullName := printf "%s-frontend" (include "eksdemo.fullname" .) -}}
+
+Get the application URL by running these commands:
+
+  NOTE: It may take a few minutes for the LoadBalancer IP to be available.
+        You can watch the status of by running 'kubectl get svc -w {{ $fullName }}'
+
+export SERVICE_URL=$(kubectl get svc --namespace {{ .Release.Namespace }} {{ $fullName }} -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
+
+echo http://$SERVICE_URL:{{ .Values.frontend.service.port }}

@@ -1,0 +1,22 @@
+{{- $fullName := printf "%s-nodejs" (include "eksdemo.fullname" .) -}}
+{{- $appName := printf "%s-nodejs" (include "eksdemo.name" .) -}}
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ $fullName }}
+  labels:
+    app.kubernetes.io/name: {{ $appName }}
+    helm.sh/chart: {{ include "eksdemo.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  type: {{ .Values.nodejs.service.type }}
+  ports:
+    - port: {{ .Values.nodejs.service.port }}
+      targetPort: {{ .Values.nodejs.service.targetPort }}
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: {{ $appName }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
