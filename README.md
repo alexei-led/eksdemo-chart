@@ -69,10 +69,10 @@ helm --debug install --name workshop --dry-run eksdemo
 helm --debug install --name workshop eksdemo
 ```
 
-### Subsequent application updates
+### Subsequent application upgrades
 
 ```sh
-helm update --name workshop eksdemo
+helm upgrade workshop eksdemo
 ```
 
 ### Inspect application deployment status
